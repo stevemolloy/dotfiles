@@ -1,0 +1,52 @@
+#!/bin/bash
+
+if [ $# -eq 0 ]
+then
+    dir=$PWD
+else
+    dir=$1
+fi
+
+if [ $# -ne 1 ]
+then
+    echo "ERROR: There should not be more than one argument"
+    exit 1
+fi
+
+if [ ! -d $dir ]
+then
+    echo $dir does not exist. Creating it.
+    mkdir $dir
+fi
+
+cd $dir
+if [ -a package.json ]
+then
+    # We have a node app
+    runserver="npm run devstart"
+elif [ -a app.py ]
+then
+    # We have a python app
+    if [ -d venv ]
+    then
+        . ./venv/bin/activate
+    fi
+    runserver="python app.py"
+else
+    # Not sure what sort of app, so default to bash
+    runserver="/bin/bash"
+fi
+
+# parameter expansion magic to extract the name of the directory from the full path
+raw=${1%/} # Remove the final / (if it exists)
+tmux_session=${raw##*/} # Get rid of everything up to the last /
+
+
+if tmux has-session -t=$tmux_session
+    then
+        tmux attach -t=$tmux_session
+        exit
+    else
+        tmux new-session -s $tmux_session -n develop \; split-window -h -p 20 "${runserver}" \; split-window -v \; new-window -n git \; select-window -t 0 \; selectp -t 0
+fi
+

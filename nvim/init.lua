@@ -1,6 +1,9 @@
 -- The package manager
 require("config.lazy")
 
+-- Copy to system clipboard
+vim.opt.clipboard = 'unnamedplus'
+
 -- Today's favourite colourscheme
 vim.cmd.colorscheme "catppuccin-mocha"
 

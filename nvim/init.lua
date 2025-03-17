@@ -14,6 +14,12 @@ vim.g.mapleader = " "
 vim.opt.relativenumber = true
 vim.opt.number = true
 
+-- tabs
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
+
 -- Highlight yanked characters
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -33,6 +39,9 @@ vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
 -- Bufferline
 vim.keymap.set('n', '<tab>', "<cmd> BufferLineCycleNext <CR>")
 vim.keymap.set('n', '<S-tab>', "<cmd> BufferLineCyclePrev <CR>")
+
+-- Oil
+vim.keymap.set('n', "<C-N>", "<cmd> Oil --float <CR>")
 
 -- nvim-gdb
 vim.api.nvim_exec([[

@@ -1,8 +1,8 @@
 return {
     "neovim/nvim-lspconfig",
     config = function()
-      require("lspconfig").clangd.setup{}
-      require("lspconfig").c3_lsp.setup{}
+        vim.lsp.enable('clangd')
+        vim.lsp.enable('python-lsp-server')
     end
 }
 
